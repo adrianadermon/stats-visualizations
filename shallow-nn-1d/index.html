@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Shallow neural network</title>
+    
+    <link rel="stylesheet" type="text/css" href="https://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css" />
+    <script type="text/javascript" src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  
+  <body>
+    <h1>Shallow neural network</h1>
+    <div class="container">
+      <div> <h2>Parameters</h2> </div>
+      <div> <h2>Input</h2> </div>
+      <div></div>
+      <div> <h2>Clipping</h2> </div>
+      <div></div>
+      <div> <h2>Scaling</h2> </div>
+      <div></div>
+      <div> <h2>Output</h2> </div>
+      <div id="controls.h1" class="jxgbox controls"></div>
+      <div id="lin.h1" class="jxgbox graph"></div>
+      <div class="arrows"> &rarr; </div>
+      <div id="clip.h1" class="jxgbox graph"></div>
+      <div class="arrows"> &rarr; </div>
+      <div id="scale.h1" class="jxgbox graph"></div>
+      <div class="arrows"> &searr; </div>
+      <div id="controls.output" class="jxgbox controls"></div>
+      <div id="controls.h2" class="jxgbox controls"></div>
+      <div id="lin.h2" class="jxgbox graph"></div>
+      <div class="arrows"> &rarr; </div>
+      <div id="clip.h2" class="jxgbox graph"></div>
+      <div class="arrows"> &rarr; </div>
+      <div id="scale.h2" class="jxgbox graph"></div>
+      <div class="arrows"> &rarr; </div>
+      <div id="lin.output" class="jxgbox graph"></div>
+      <div id="controls.h3" class="jxgbox controls"></div>
+      <div id="lin.h3" class="jxgbox graph"></div>
+      <div class="arrows"> &rarr; </div>
+      <div id="clip.h3" class="jxgbox graph"></div>
+      <div class="arrows"> &rarr; </div>
+      <div id="scale.h3" class="jxgbox graph"></div>
+      <div class="arrows"> &nearr; </div>
+    </div>
+
+    <div>
+      Activation function
+      <select name="Activation function" id="activation-select">
+        <option value="relu">reLU</option>
+        <option value="sigmoid">Sigmoid</option>
+        <option value="leaky_relu">Leaky reLU</option>
+        <option value="hardswish">HardSwish</option>
+        <option value="passthrough">Passthrough</option>
+      </select>
+    </div>
+    
+    <script src="main.js"></script>    
+
+  </body>
+</html>
