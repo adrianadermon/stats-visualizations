@@ -1,0 +1,45 @@
+.container {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 5fr 10fr 1fr 10fr 1fr 10fr 1fr 10fr;
+}
+
+.jxgbox {
+    /* border-style: dashed; */
+    /* border-radius: 0px; */
+    /* margin: 10px; */
+    border-width: 0px;
+}
+      
+h1 {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h2 {
+    font-family: "Raleway", serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+}
+.arrows {
+    font-size: 30px;
+}
+      /* .roboto-<uniquifier> { */
+      /*     font-family: "Roboto", serif; */
+      /*     font-optical-sizing: auto; */
+      /*     font-weight: 200; */
+      /*     font-style: normal; */
+      /*     font-variation-settings: */
+      /*         "wdth" 100; */
+      /* } */
+.controls {
+    width: 200px;
+    aspect-ratio: 1 / 1;
+}
+.graph {
+    width: 200px;
+    aspect-ratio: 1 / 1;
+}
