@@ -1,0 +1,26 @@
+.container {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+}
+
+.jxgbox {
+    width: 95%;
+    aspect-ratio: 1 / 1;
+    border-radius: 0px;
+    /* margin: 10px; */
+    border-width: 1px;
+}
+h1 {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h2 {
+    font-family: "Raleway", serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+}          

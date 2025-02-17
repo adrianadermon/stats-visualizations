@@ -57,10 +57,6 @@ x.forEach((x, i) => {
     brd.create('segment', [[x, y[i]], [x, yP]], {strokeWidth:1, dash:2, color:JXG.palette.blue});
 });
 
-const yP = function() {return yPred(x[5]);};
-// brd.create('segment', [[x[5], y[5]], [x[5], yPred()[5]]], {strokeWidth:1, dash:2, color:JXG.palette.blue});
-brd.create('segment', [[x[5], y[5]], [x[5], yP]], {strokeWidth:1, dash:2, color:JXG.palette.blue});
-
 
 // Calculate MSE
 function MSE() {
@@ -71,7 +67,6 @@ function MSE() {
 };
       
 const MSEVal = function() {return 'MSE = ' + MSE().toFixed(2);};
-// brd.create('text', [5, -5, 'MSE = ' + MSE().toFixed(2)]);
 brd.create('text', [5, -5, MSEVal], {fontSize: 18});
 
 
