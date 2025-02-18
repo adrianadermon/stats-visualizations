@@ -27,33 +27,20 @@ const add = JXG.Math.Statistics.add,
 // No. of points
 n = 30;
 const x = [...Array(n).keys().map((x) => (20*x/(n-1) - 10))];
-const e = [...Array(n).keys().map((x) => JXG.Math.Statistics.randomNormal(0, 2))];
-const y = add(e,
-    add(1,
-        mult(0.5, x)
-    )
-);
+
+const trueModel = function(x) {return 1 + 0.5*x + 0.2*x**2 + JXG.Math.Statistics.randomNormal(0, 2)};
+
+const y = x.map(trueModel);
 
 const alphaVal = function() {return alpha.Value();};
 const beta1Val = function() {return beta1.Value();};
 const beta2Val = function() {return beta2.Value();};
 
-function yPred(x) {
-    return add(alphaVal(),
-        add(mult(beta1Val(), x),
-            mult(beta2Val(), x**2))
-    )};
-          
-function yPred2() {
-    return add(alphaVal(),
-        add(mult(beta1Val(), x),
-            mult(beta2Val(), x**2))
-    )};
+function yPred(x) {return alphaVal() + beta1Val()*x + beta2Val()*x**2};
 
 // Plot data
 x.forEach((x, i) => {
-    const y = 1 + 0.5*x + 0.2*x**2 + e[i];
-    brd.create('point', [x, y], {name:'', size:2, color:JXG.palette.blue});
+    brd.create('point', [x, y[i]], {name:'', size:2, color:JXG.palette.blue});
 });
 
 // Plot residuals
@@ -62,83 +49,76 @@ x.forEach((x, i) => {
     brd.create('segment', [[x, y[i]], [x, yP]], {strokeWidth:1, dash:2, color:JXG.palette.blue});
 });
 
-// // Calculate MSE
-// function MSE() {
-//     const residuals = sub(y, yPred2());
-//     return sum(
-//         mult(residuals, residuals)
-//     ) / n
-// };
+// Calculate MSE
+function MSE() {
+    const residuals = y.map((v, i) => {return v - yPred(x[i])});
+    const resSq = residuals.map((v) => {return v**2});
+    return JXG.Math.Statistics.sum(resSq) / n
+};
       
-// const MSEVal = function() {return 'MSE = ' + MSE().toFixed(2);};
-// // brd.create('text', [5, -5, 'MSE = ' + MSE().toFixed(2)]);
-// brd.create('text', [5, -5, MSEVal], {fontSize: 18});
+const MSEVal = function() {return 'MSE = ' + MSE().toFixed(2);};
+// brd.create('text', [5, -5, 'MSE = ' + MSE().toFixed(2)]);
+brd.create('text', [5, -5, MSEVal], {fontSize: 18});
 
 
 
-// // Graph MSE
-// const brdGradient = JXG.JSXGraph.initBoard('gradient', {boundingbox: [-2.5, .5, .5, -2], axis:false, showNavigation:false, showCopyright:false});
+// Graph MSE
+const brdGradient = JXG.JSXGraph.initBoard('gradient', {boundingbox: [-2.5, .5, .5, -2], axis:false, showNavigation:false, showCopyright:false});
 
-// brd.addChild(brdGradient);
+brd.addChild(brdGradient);
 
-// var box = [-2, 2];
-// var view = brdGradient.create('view3d',
-//     [
-//         [-2, -2], [2, 2],
-//         [[-6, 6], box, [0, 2]]
-//     ],
-//     {
-//         xPlaneRear: {visible: false},
-//         yPlaneRear: {visible: false},
-//         xAxis: {withLabel: true,
-//             name: '\\(\\alpha\\)'},
-//         yAxis: {withLabel: true,
-//             name: '\\(\\beta\\)'},
-//         zAxis: {withLabel: true,
-//             name: 'MSE'},
-//     });
+var box = [-2, 2];
+var view = brdGradient.create('view3d',
+    [
+        [-2, -2], [2, 2],
+        [[-6, 6], box, [0, 2]]
+    ],
+    {
+        xPlaneRear: {visible: false},
+        yPlaneRear: {visible: false},
+        xAxis: {withLabel: true,
+            name: '\\(\\beta_1\\)'},
+        yAxis: {withLabel: true,
+            name: '\\(\\beta_2\\)'},
+        zAxis: {withLabel: true,
+            name: 'MSE'},
+    });
 
-// function yPred3(a, b) {
-//     return add(a,
-//         mult(b, x)
-//     )};
-      
-// function MSE2(a, b) {
-//     const residuals = sub(y, yPred3(a, b));
-//     const mse = sum(
-//         mult(residuals, residuals)
-//     ) / n;
-//     return mse/100;
-// };
 
-// // 3D surface
-// const c = view.create('functiongraph3d', [
-//     MSE2,
-//     [-6, 6],
-//     [-2, 2],
-// ], {
-//     strokeWidth: 0.5,
-//     stepsU: 40,
-//     stepsV: 40
-// });
+function yPred2(x, a, b1, b2) {return a + b1*x + b2*x**2};
 
-// // const q = view.create('point3d', function() { return [alpha.Value(), beta.Value(), MSE2(alpha.Value(), beta.Value())]; },
-// //                       { name:'MSE', size: 5, fixed: true });
+function MSE2(b1, b2) {
+    const residuals = y.map((v, i) => {return v - yPred2(x[i], alphaVal(), b1, b2)});
+    const resSq = residuals.map((v) => {return v**2});
+    const mse = JXG.Math.Statistics.sum(resSq) / n
+    return mse/10000;
+};
 
-// // MSE point + drop line
-// const l1 = view.create('line3d',
-//     [function() {
-//         return [alpha.Value(),
-//             beta.Value(),
-//             MSE2(alpha.Value(),
-//                 beta.Value())];
-//     },
-//         function() {
-//             return [alpha.Value(),
-//                 beta.Value(), 0];
-//         }],
-//     {point1: {visible: true,
-//         size: 3,
-//         gradient: false,
-//         color: JXG.palette.red}, point2: {visible: false} });
+// 3D surface
+const c = view.create('functiongraph3d', [
+    MSE2,
+    [-6, 6],
+    [-2, 2],
+], {
+    strokeWidth: 0.5,
+    stepsU: 40,
+    stepsV: 40
+});
+
+// MSE point + drop line
+const l1 = view.create('line3d',
+    [function() {
+        return [beta1.Value(),
+            beta2.Value(),
+            MSE2(beta1.Value(),
+                beta2.Value())];
+    },
+        function() {
+            return [beta1.Value(),
+                beta2.Value(), 0];
+        }],
+    {point1: {visible: true,
+        size: 3,
+        gradient: false,
+        color: JXG.palette.red}, point2: {visible: false} });
       
