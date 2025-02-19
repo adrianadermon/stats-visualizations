@@ -95,10 +95,14 @@ const p0 = board_output.create('slider', p0param, {...{name:'\\(\\phi_0\\)'}, ..
       t31 = board_h3.create('slider', t1param, {...{name:'\\(\\theta_{31}\\)'}, ...satts}),
       t32 = board_h3.create('slider', t2param, {...{name:'\\(\\theta_{32}\\)'}, ...satts});
 
+
 const start_button = board_output.create('button',
     [-1, -1, 'Start rotation', function(){start_animation()}]);
 const stop_button = board_output.create('button',
     [-1, -2, 'Stop rotation', function(){stop_animation()}]);
+
+const elSlider = board_output.create('slider', [[sleft, -3], [sright, -3], [0, Math.PI/4, Math.PI/2]], {...{name:'Elevation'}, ...satts}),
+azSlider = board_output.create('slider', [[sleft, -4], [sright, -4], [0, Math.PI/4, 2*Math.PI]], {...{name:'Azimuth'}, ...satts});
       
 // Text
 const title_lin_h1 = board_lin_h1.create('text', [-1.5, 3.5, '\\[\\theta_{10} + \\theta_{11} x_1 + \\theta_{12} x_2\\]']),
@@ -205,8 +209,8 @@ const surf_plot = (view, f, color) => view.create('functiongraph3d', [
     box, // () => [-s.Value()*5, s.Value() * 5],
 ], {
     strokeWidth: 0.5,
-    stepsU: 30,
-    stepsV: 30,
+    stepsU: 10,
+    stepsV: 10,
     strokeColor: color
 });
 
@@ -214,7 +218,7 @@ const surf_plot = (view, f, color) => view.create('functiongraph3d', [
 const view_lin_output = make_view(board_lin_output)
 
 surf_plot(view_lin_output, lin_output, JXG.palette.orange);
-      
+
 // h1
 const view_lin_h1 = make_view(board_lin_h1)
       
@@ -253,6 +257,36 @@ surf_plot(view_clip_h3, clip_h3, JXG.palette.red);
 const view_scale_h3 = make_view(board_scale_h3)
 
 surf_plot(view_scale_h3, scale_h3, JXG.palette.green);
+
+
+
+azSlider.on('drag', function() {
+    view_lin_h1.setView(azSlider.Value(), elSlider.Value());
+    view_clip_h1.setView(azSlider.Value(), elSlider.Value());
+    view_scale_h1.setView(azSlider.Value(), elSlider.Value());
+    view_lin_h2.setView(azSlider.Value(), elSlider.Value());
+    view_clip_h2.setView(azSlider.Value(), elSlider.Value());
+    view_scale_h2.setView(azSlider.Value(), elSlider.Value());
+    view_lin_h3.setView(azSlider.Value(), elSlider.Value());
+    view_clip_h3.setView(azSlider.Value(), elSlider.Value());
+    view_scale_h3.setView(azSlider.Value(), elSlider.Value());
+    view_lin_output.setView(azSlider.Value(), elSlider.Value());
+});
+
+elSlider.on('drag', function() {
+    view_lin_h1.setView(azSlider.Value(), elSlider.Value());
+    view_clip_h1.setView(azSlider.Value(), elSlider.Value());
+    view_scale_h1.setView(azSlider.Value(), elSlider.Value());
+    view_lin_h2.setView(azSlider.Value(), elSlider.Value());
+    view_clip_h2.setView(azSlider.Value(), elSlider.Value());
+    view_scale_h2.setView(azSlider.Value(), elSlider.Value());
+    view_lin_h3.setView(azSlider.Value(), elSlider.Value());
+    view_clip_h3.setView(azSlider.Value(), elSlider.Value());
+    view_scale_h3.setView(azSlider.Value(), elSlider.Value());
+    view_lin_output.setView(azSlider.Value(), elSlider.Value());
+});
+
+
 
 // Rotate graphs
 start_animation = () => {view_lin_output.animateAzimuth(),
