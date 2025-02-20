@@ -21,6 +21,7 @@ const ub = function() {return x0.Value() + bw.Value()};
 const mid = function() {return x0.Value()};
 
 // Kernel functions
+
 // Triangular kernel
 const triKernel = function(u) {
     return Math.abs(u) <= 1 ? 1 - Math.abs(u) : 0;
@@ -150,16 +151,16 @@ const y = stats.add(e,
     )
 );
 
-// ---- MAKE OPACITY UPDATE ---- //
 // Plot data
 points = x.map((x, i) => {
     const y = 2 + 0.5*x + e[i];
     brd.create('point', [x, y],
         {name:'',
-            size:1,
+            // size:1,
+            size: () => {return kernel(x0.Value(), x, bw.Value(), kernelFunc) + 1;},
             color:JXG.palette.black,
-            opacity: kernel(x0.Value(), x, bw.Value(), kernelFunc) + 0.2});
-});
+            opacity: () => {return 0.7*kernel(x0.Value(), x, bw.Value(), kernelFunc) + 0.3;},
+        })});
 
 
 
@@ -207,7 +208,7 @@ const plotLine = brd.create('segment',
     [() => {return localLine(x0.Value(), bw.Value())[0];},
         () => {return localLine(x0.Value(), bw.Value())[1];}],
     {
-        strokeWidth: 3,
+        strokeWidth: 2,
         strokeColor: JXG.palette.blue,
     });
 
@@ -227,7 +228,7 @@ const regPoint = brd.create('point',
     [mid, () => {return kernReg(x0.Value(), bw.Value());}],
     {
         withLabel: false,
-        size: 5,
+        size: 4,
         color: JXG.palette.blue,
     });
 
@@ -249,17 +250,7 @@ const weightLine = brd.create('functiongraph',
         0, 10],
     {
         strokeWidth: 1,
-        strokeColor: JXG.palette.skyblue,
+        strokeColor: JXG.palette.green,
     });
 
 
-
-
-
-// Prototype for fading points by weight
-// ops = brd.create('slider', [[2, 1], [5, 1], [0, 1, 1]], {name:'opacity'});
-
-// let testPoint = brd.create('point',
-//     [1, 1]);
-
-// testPoint.setAttribute({opacity:() => {return ops.Value();}});
