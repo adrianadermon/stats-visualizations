@@ -6,15 +6,81 @@ const box = [-5, 5];
 // Boards
 const board_dims = [-2, 4, 6, -4];
       
-const board_output = JXG.JSXGraph.initBoard('controls.output', {boundingbox: board_dims, axis:false, showNavigation:false, showCopyright:false}),
-            board_lin_output = JXG.JSXGraph.initBoard('lin.output', {boundingbox: board_dims, axis:true, showNavigation:false, showCopyright:false});
+const board_output = JXG.JSXGraph.initBoard('controls.output',
+    {boundingbox: board_dims,
+        axis:false,
+        showNavigation:false,
+        showCopyright:false}),
+            board_lin_output = JXG.JSXGraph.initBoard('lin.output',
+                {boundingbox: board_dims,
+                    axis:true,
+                    defaultAxes: {
+                        x: {
+                            // name: 'x',
+                            // withLabel: true,
+                            // label: {
+                            //     position: 'rt',
+                            // },
+                            ticks: {visible: false}
+                        },
+                        y: {
+                            // name: 'y',
+                            // withLabel: true,
+                            // label: {
+                            //     position: 'rt',
+                            // },
+                            ticks: {visible: false}
+                        }
+                    },
+                    showNavigation:false,
+                    showCopyright:false});
       
 board_output.addChild(board_lin_output);
 
-const board_h1 = JXG.JSXGraph.initBoard('controls.h1', {boundingbox: board_dims, axis:false, showNavigation:false, showCopyright:false}),
-            board_lin_h1 = JXG.JSXGraph.initBoard('lin.h1', {boundingbox: board_dims, axis:true, showNavigation:false, showCopyright:false}),
-            board_clip_h1 = JXG.JSXGraph.initBoard('clip.h1', {boundingbox: board_dims, axis:true, showNavigation:false, showCopyright:false}),
-            board_scale_h1 = JXG.JSXGraph.initBoard('scale.h1', {boundingbox: board_dims, axis:true, showNavigation:false, showCopyright:false});
+const board_h1 = JXG.JSXGraph.initBoard('controls.h1',
+    {boundingbox: board_dims,
+        axis:false,
+        showNavigation:false,
+        showCopyright:false}),
+            board_lin_h1 = JXG.JSXGraph.initBoard('lin.h1',
+                {boundingbox: board_dims,
+                    axis:true,
+                    defaultAxes: {
+                        x: {
+                            ticks: {visible: false}
+                        },
+                        y: {
+                            ticks: {visible: false}
+                        }
+                    },
+                    showNavigation:false,
+                    showCopyright:false}),
+            board_clip_h1 = JXG.JSXGraph.initBoard('clip.h1',
+                {boundingbox: board_dims,
+                    axis:true,
+                    defaultAxes: {
+                        x: {
+                            ticks: {visible: false}
+                        },
+                        y: {
+                            ticks: {visible: false}
+                        }
+                    },
+                    showNavigation:false,
+                    showCopyright:false}),
+            board_scale_h1 = JXG.JSXGraph.initBoard('scale.h1',
+                {boundingbox: board_dims,
+                    axis:true,
+                    defaultAxes: {
+                        x: {
+                            ticks: {visible: false}
+                        },
+                        y: {
+                            ticks: {visible: false}
+                        }
+                    },
+                    showNavigation:false,
+                    showCopyright:false});
       
 board_h1.addChild(board_lin_h1);
 board_h1.addChild(board_clip_h1);
@@ -24,10 +90,50 @@ board_h1.addChild(board_lin_output);
 board_output.addChild(board_clip_h1);
 board_output.addChild(board_scale_h1);
       
-const board_h2 = JXG.JSXGraph.initBoard('controls.h2', {boundingbox: board_dims, axis:false, showNavigation:false, showCopyright:false}),
-            board_lin_h2 = JXG.JSXGraph.initBoard('lin.h2', {boundingbox: board_dims, axis:true, showNavigation:false, showCopyright:false}),
-            board_clip_h2 = JXG.JSXGraph.initBoard('clip.h2', {boundingbox: board_dims, axis:true, showNavigation:false, showCopyright:false}),
-            board_scale_h2 = JXG.JSXGraph.initBoard('scale.h2', {boundingbox: board_dims, axis:true, showNavigation:false, showCopyright:false});
+const board_h2 = JXG.JSXGraph.initBoard('controls.h2',
+    {boundingbox: board_dims,
+        axis:false,
+        showNavigation:false,
+        showCopyright:false}),
+            board_lin_h2 = JXG.JSXGraph.initBoard('lin.h2',
+                {boundingbox: board_dims,
+                    axis:true,
+                    defaultAxes: {
+                        x: {
+                            ticks: {visible: false}
+                        },
+                        y: {
+                            ticks: {visible: false}
+                        }
+                    },
+                    showNavigation:false,
+                    showCopyright:false}),
+            board_clip_h2 = JXG.JSXGraph.initBoard('clip.h2',
+                {boundingbox: board_dims,
+                    axis:true,
+                    defaultAxes: {
+                        x: {
+                            ticks: {visible: false}
+                        },
+                        y: {
+                            ticks: {visible: false}
+                        }
+                    },
+                    showNavigation:false,
+                    showCopyright:false}),
+            board_scale_h2 = JXG.JSXGraph.initBoard('scale.h2',
+                {boundingbox: board_dims,
+                    axis:true,
+                    defaultAxes: {
+                        x: {
+                            ticks: {visible: false}
+                        },
+                        y: {
+                            ticks: {visible: false}
+                        }
+                    },
+                    showNavigation:false,
+                    showCopyright:false});
 
 board_h2.addChild(board_lin_h2);
 board_h2.addChild(board_clip_h2);
@@ -37,10 +143,50 @@ board_h2.addChild(board_lin_output);
 board_output.addChild(board_clip_h2);
 board_output.addChild(board_scale_h2);
       
-const board_h3 = JXG.JSXGraph.initBoard('controls.h3', {boundingbox: board_dims, axis:false, showNavigation:false, showCopyright:false}),
-            board_lin_h3 = JXG.JSXGraph.initBoard('lin.h3', {boundingbox: board_dims, axis:true, showNavigation:false, showCopyright:false}),
-            board_clip_h3 = JXG.JSXGraph.initBoard('clip.h3', {boundingbox: board_dims, axis:true, showNavigation:false, showCopyright:false}),
-            board_scale_h3 = JXG.JSXGraph.initBoard('scale.h3', {boundingbox: board_dims, axis:true, showNavigation:false, showCopyright:false});
+const board_h3 = JXG.JSXGraph.initBoard('controls.h3',
+    {boundingbox: board_dims,
+        axis:false,
+        showNavigation:false,
+        showCopyright:false}),
+            board_lin_h3 = JXG.JSXGraph.initBoard('lin.h3',
+                {boundingbox: board_dims,
+                    axis:true,
+                    defaultAxes: {
+                        x: {
+                            ticks: {visible: false}
+                        },
+                        y: {
+                            ticks: {visible: false}
+                        }
+                    },
+                    showNavigation:false,
+                    showCopyright:false}),
+            board_clip_h3 = JXG.JSXGraph.initBoard('clip.h3',
+                {boundingbox: board_dims,
+                    axis:true,
+                    defaultAxes: {
+                        x: {
+                            ticks: {visible: false}
+                        },
+                        y: {
+                            ticks: {visible: false}
+                        }
+                    },
+                    showNavigation:false,
+                    showCopyright:false}),
+            board_scale_h3 = JXG.JSXGraph.initBoard('scale.h3',
+                {boundingbox: board_dims,
+                    axis:true,
+                    defaultAxes: {
+                        x: {
+                            ticks: {visible: false}
+                        },
+                        y: {
+                            ticks: {visible: false}
+                        }
+                    },
+                    showNavigation:false,
+                    showCopyright:false});
 
 board_h3.addChild(board_lin_h3);
 board_h3.addChild(board_clip_h3);

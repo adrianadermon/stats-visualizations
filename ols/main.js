@@ -6,9 +6,25 @@ const brd = JXG.JSXGraph.initBoard('jxgbox',
         axis:true,
         defaultAxes: {
             x: {
+                name: 'x',
+                withLabel: true,
+                label: {
+                    position: 'rt',
+                    anchorX: 'right',
+                    anchorY: 'bottom',
+                    fontSize: 18,
+                },
                 ticks: {visible: false}
             },
             y: {
+                name: 'y',
+                withLabel: true,
+                label: {
+                    position: 'rt',
+                    anchorX: 'left',
+                    anchorY: 'top',
+                    fontSize: 18,
+                },
                 ticks: {visible: false}
             }
         },

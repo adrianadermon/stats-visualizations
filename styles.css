@@ -1,0 +1,57 @@
+:root {
+  --background-color: #f9f9f9;
+  /* --base-color: #87919e; */
+  --base-color: #707078;
+  --alt-color: #8da7be;
+  --alt-color-2: #707078;
+}
+
+/* Main setup */
+html {
+    font-family: "Raleway", sans-serif;
+    background-color: var(--background-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+}
+
+/* JSXGraph board */
+.jxgbox {
+    background-color: transparent;
+    /* border-style: dashed; */
+    /* border-radius: 0px; */
+    /* margin: 10px; */
+    /* border-width: 0px; */
+}
+      
+
+
+/* Style hyperlinks */
+a {
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
+}
+
+a:link,
+a:visited {
+  color: var(--base-color);
+}
+
+a:focus,
+a:hover {
+  border-bottom: 1px solid;
+  color: var(--alt-color);
+}
+
+a:active {
+  color: var(--alt-color-2);
+}
+
+.last-updated {
+  margin-top: 1em;
+  text-align: right;
+}
+

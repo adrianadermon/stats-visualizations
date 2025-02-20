@@ -7,10 +7,30 @@ const brd = JXG.JSXGraph.initBoard('jxgbox',
         showNavigation:false,
         showCopyright:false});
 
-const xAxis = brd.create('axis', [[0, 0], [1, 0]], { straightFirst: false,
-    ticks: { visible: false }});
-const yAxis = brd.create('axis', [[0, 0], [0, 1]], { straightFirst: false,
-    ticks: { visible: false }});
+const xAxis = brd.create('axis',
+    [[0, 0], [1, 0]],
+    {straightFirst: false,
+        name: 'x',
+        withLabel: true,
+        label: {
+            position: 'rt',
+            anchorX: 'right',
+            anchorY: 'bottom',
+            fontSize: 18,
+        },
+        ticks: { visible: false}});
+const yAxis = brd.create('axis',
+    [[0, 0], [0, 1]],
+    {straightFirst: false,
+        name: 'y',
+        withLabel: true,
+        label: {
+            position: 'rt',
+            anchorX: 'left',
+            anchorY: 'top',
+            fontSize: 18,
+        },
+        ticks: { visible: false }});
       
 // Sliders
 const x0 = brd.create('slider', [[1, 8], [5, 8], [1, 5, 9]], {name:'\\(x_0\\)'});
