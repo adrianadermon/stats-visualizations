@@ -1,7 +1,19 @@
 JXG.Options.text.useMathJax = true;
       
 // Board
-const brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox: [-10, 10, 10, -10], axis:true, showNavigation:false, showCopyright:false});
+const brd = JXG.JSXGraph.initBoard('jxgbox',
+    {boundingbox: [-10, 10, 10, -10],
+        axis:true,
+        defaultAxes: {
+            x: {
+                ticks: {visible: false}
+            },
+            y: {
+                ticks: {visible: false}
+            }
+        },
+        showNavigation:false,
+        showCopyright:false});
       
 // Sliders
 const alpha = brd.create('slider', [[-8, -6], [0, -6], [-6, 0, 6]], {name:'\\(\\alpha\\)'});
