@@ -1,5 +1,10 @@
 JXG.Options.text.useMathJax = true;
-      
+
+// Get colors from CSS
+const documentCSS = window.getComputedStyle(document.body);
+const blue = documentCSS.getPropertyValue('--graph-blue');
+const red = documentCSS.getPropertyValue('--graph-red');
+
 // Board
 const brd = JXG.JSXGraph.initBoard('jxgbox',
     {boundingbox: [-1, 10, 10, -1],
@@ -115,14 +120,14 @@ x.forEach((x, i) => {
     const y = 1 + 0.5*x + e[i];
     brd.create('point', [() => {return x+Math.sqrt(errX.Value())*ex[i]},
         () => {return y+Math.sqrt(errY.Value())*ey[i]}],
-    {name:'', size:2, color:JXG.palette.red, opacity: 0.5});
+    {name:'', size:2, color: red, opacity: 0.5});
 });
 
 // Plot true data
 x.forEach((x, i) => {
     const y = 1 + 0.5*x + e[i];
     brd.create('point', [x, y],
-    {name:'', size:2, color:JXG.palette.blue});
+    {name:'', size:2, color: blue});
 });
 
 
@@ -140,7 +145,7 @@ const regLineObsPlot = brd.create('functiongraph',
     [regLineObs, 0, 10],
         {
             strokeWidth: 3,
-            strokeColor: JXG.palette.red,
+            strokeColor: red,
             strokeOpacity: 0.5
         }
 );
@@ -157,7 +162,7 @@ const regLine = brd.create('functiongraph',
     [olsFit, 0, 10],
     {
     strokeWidth: 3,
-    strokeColor: JXG.palette.blue
+    strokeColor: blue
 });
 
 
@@ -174,9 +179,9 @@ const trueBeta = '\\(\\beta\\) = ' + b.toFixed(2);
 const obsBeta = function() {return '\\(\\hat{\\beta}\\) = ' + regLineObsBeta();};
 
 brd.create('text', [3, 1, '\\(\\beta\\) = 0.5'], {fontSize: 18,
-    color:JXG.palette.blue});
+    color: blue});
 brd.create('text', [7, 1, obsBeta], {fontSize: 18,
-    color:JXG.palette.red});
+    color: red});
 
 
 // Show standard error
@@ -215,4 +220,4 @@ const printSe = function() {
 
 brd.create('text', [7, 0.5, printSe],
     {fontSize: 18,
-    color:JXG.palette.red});
+    color: red});

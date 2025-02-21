@@ -1,5 +1,10 @@
 JXG.Options.text.useMathJax = true;
-      
+
+// Get colors from CSS
+const documentCSS = window.getComputedStyle(document.body);
+const blue = documentCSS.getPropertyValue('--graph-blue');
+const red = documentCSS.getPropertyValue('--graph-red');
+
 // Board
 const brd = JXG.JSXGraph.initBoard('jxgbox',
     {boundingbox: [-10, 10, 10, -10],
@@ -44,7 +49,7 @@ const ols_fit = (x) => alpha0 + beta0 * x;
 
 const regLine = brd.create('functiongraph', ols_fit, {
     strokeWidth: 3,
-    strokeColor: JXG.palette.blue
+    strokeColor: blue
 });
 
 // Data
@@ -81,13 +86,13 @@ function yPred2() {
 // Plot data
 x.forEach((x, i) => {
     const y = alpha + beta*x + e[i];
-    brd.create('point', [x, y], {name:'', size:2, color:JXG.palette.blue});
+    brd.create('point', [x, y], {name:'', size:2, color:blue});
 });
 
 // // Plot residuals
 // x.forEach((x, i) => {
 //     const yP = function() {return yPred(x);};
-//     brd.create('segment', [[x, y[i]], [x, yP]], {strokeWidth:1, dash:2, color:JXG.palette.blue});
+//     brd.create('segment', [[x, y[i]], [x, yP]], {strokeWidth:1, dash:2, color:blue});
 // });
 
 
@@ -168,5 +173,5 @@ const l1 = view.create('line3d',
     {point1: {visible: true,
         size: 3,
         gradient: false,
-        color: JXG.palette.red}, point2: {visible: false} });
+        color: red}, point2: {visible: false} });
       

@@ -1,4 +1,12 @@
 JXG.Options.text.useMathJax = true;
+
+// Get colors from CSS
+const documentCSS = window.getComputedStyle(document.body);
+const blue = documentCSS.getPropertyValue('--graph-blue');
+const red = documentCSS.getPropertyValue('--graph-red');
+const black = documentCSS.getPropertyValue('--graph-black');
+const green = documentCSS.getPropertyValue('--graph-green');
+
       
 // Board
 const brd = JXG.JSXGraph.initBoard('jxgbox',
@@ -178,7 +186,7 @@ points = x.map((x, i) => {
         {name:'',
             // size:1,
             size: () => {return kernel(x0.Value(), x, bw.Value(), kernelFunc) + 1;},
-            color:JXG.palette.black,
+            color: black,
             opacity: () => {return 0.7*kernel(x0.Value(), x, bw.Value(), kernelFunc) + 0.3;},
         })});
 
@@ -190,14 +198,14 @@ const lbLine = brd.create('segment',
     [[lb, 0], [lb, 10]],
     {
         strokeWidth: 1,
-        strokeColor: JXG.palette.blue,
+        strokeColor: blue,
     });
 
 const ubLine = brd.create('segment',
     [[ub, 0], [ub, 10]],
     {
         strokeWidth: 1,
-        strokeColor: JXG.palette.blue,
+        strokeColor: blue,
     });
 
 // Labels
@@ -229,7 +237,7 @@ const plotLine = brd.create('segment',
         () => {return localLine(x0.Value(), bw.Value())[1];}],
     {
         strokeWidth: 2,
-        strokeColor: JXG.palette.blue,
+        strokeColor: blue,
     });
 
 
@@ -239,7 +247,7 @@ const midLine = brd.create('segment',
     [[mid, 0], [mid, ymid]],
     {
         strokeWidth: 1,
-        strokeColor: JXG.palette.blue,
+        strokeColor: blue,
     });
 
 
@@ -249,7 +257,7 @@ const regPoint = brd.create('point',
     {
         withLabel: false,
         size: 4,
-        color: JXG.palette.blue,
+        color: blue,
     });
 
 
@@ -261,7 +269,7 @@ const kernelLine = brd.create('functiongraph',
         1, mid],
     {
         strokeWidth: 2,
-        strokeColor: JXG.palette.red,
+        strokeColor: red,
     });
 
 // Draw weights
@@ -270,7 +278,7 @@ const weightLine = brd.create('functiongraph',
         0, 10],
     {
         strokeWidth: 1,
-        strokeColor: JXG.palette.green,
+        strokeColor: green,
     });
 
 

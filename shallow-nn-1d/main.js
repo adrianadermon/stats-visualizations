@@ -1,4 +1,12 @@
 JXG.Options.text.useMathJax = true;
+
+// Get colors from CSS
+const documentCSS = window.getComputedStyle(document.body);
+const blue = documentCSS.getPropertyValue('--graph-blue');
+const red = documentCSS.getPropertyValue('--graph-red');
+const black = documentCSS.getPropertyValue('--graph-black');
+const green = documentCSS.getPropertyValue('--graph-green');
+const orange = documentCSS.getPropertyValue('--graph-orange');
       
 // Coordinate ranges for 3D view
 const box = [-5, 5];
@@ -298,25 +306,25 @@ const create_graph = (board, f, color) => board.create('functiongraph', f, {
 });
       
 // Output layer
-const graph_lin_output = create_graph(board_lin_output, lin_output, JXG.palette.orange);
+const graph_lin_output = create_graph(board_lin_output, lin_output, orange);
         
 // h1
-const graph_lin_h1 = create_graph(board_lin_h1, lin_h1, JXG.palette.blue);
+const graph_lin_h1 = create_graph(board_lin_h1, lin_h1, blue);
 
-const graph_clip_h1 = create_graph(board_clip_h1, clip_h1, JXG.palette.blue);
+const graph_clip_h1 = create_graph(board_clip_h1, clip_h1, blue);
 
-const graph_scale_h1 = create_graph(board_scale_h1, scale_h1, JXG.palette.blue);
+const graph_scale_h1 = create_graph(board_scale_h1, scale_h1, blue);
 
 // h2
-const graph_lin_h2 = create_graph(board_lin_h2, lin_h2, JXG.palette.green);
+const graph_lin_h2 = create_graph(board_lin_h2, lin_h2, green);
 
-const graph_clip_h2 = create_graph(board_clip_h2, clip_h2, JXG.palette.green);
+const graph_clip_h2 = create_graph(board_clip_h2, clip_h2, green);
 
-const graph_scale_h2 = create_graph(board_scale_h2, scale_h2, JXG.palette.green);
+const graph_scale_h2 = create_graph(board_scale_h2, scale_h2, green);
 
 // h3
-const graph_lin_h3 = create_graph(board_lin_h3, lin_h3, JXG.palette.red);
+const graph_lin_h3 = create_graph(board_lin_h3, lin_h3, red);
 
-const graph_clip_h3 = create_graph(board_clip_h3, clip_h3, JXG.palette.red);
+const graph_clip_h3 = create_graph(board_clip_h3, clip_h3, red);
 
-const graph_scale_h3 = create_graph(board_scale_h3, scale_h3, JXG.palette.red);
+const graph_scale_h3 = create_graph(board_scale_h3, scale_h3, red);

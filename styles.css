@@ -1,9 +1,14 @@
 :root {
-  --background-color: #f9f9f9;
-  /* --base-color: #87919e; */
-  --base-color: #707078;
-  --alt-color: #8da7be;
-  --alt-color-2: #707078;
+    --background-color: #f9f9f9;
+    /* --base-color: #87919e; */
+    --base-color: #707078;
+    --alt-color: #8da7be;
+    --alt-color-2: #707078;
+    --graph-blue: #0072B2;
+    --graph-red: #D55E00;
+    --graph-black: #000000;
+    --graph-green: #009E73;
+    --graph-orange: #E69F00;
 }
 
 /* Main setup */

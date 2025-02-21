@@ -1,4 +1,12 @@
 JXG.Options.text.useMathJax = true;
+
+// Get colors from CSS
+const documentCSS = window.getComputedStyle(document.body);
+const blue = documentCSS.getPropertyValue('--graph-blue');
+const red = documentCSS.getPropertyValue('--graph-red');
+const black = documentCSS.getPropertyValue('--graph-black');
+const green = documentCSS.getPropertyValue('--graph-green');
+const orange = documentCSS.getPropertyValue('--graph-orange');
       
 // Coordinate ranges for 3D view
 const box = [-5, 5];
@@ -217,46 +225,46 @@ const surf_plot = (view, f, color) => view.create('functiongraph3d', [
 // Output layer
 const view_lin_output = make_view(board_lin_output)
 
-surf_plot(view_lin_output, lin_output, JXG.palette.orange);
+surf_plot(view_lin_output, lin_output, orange);
 
 // h1
 const view_lin_h1 = make_view(board_lin_h1)
       
-surf_plot(view_lin_h1, lin_h1, JXG.palette.blue);
+surf_plot(view_lin_h1, lin_h1, blue);
 
 const view_clip_h1 = make_view(board_clip_h1)
 
-surf_plot(view_clip_h1, clip_h1, JXG.palette.red);
+surf_plot(view_clip_h1, clip_h1, red);
       
 const view_scale_h1 = make_view(board_scale_h1)
 
-surf_plot(view_scale_h1, scale_h1, JXG.palette.green);
+surf_plot(view_scale_h1, scale_h1, green);
       
 // h2      
 const view_lin_h2 = make_view(board_lin_h2)
 
-surf_plot(view_lin_h2, lin_h2, JXG.palette.blue);
+surf_plot(view_lin_h2, lin_h2, blue);
 
 const view_clip_h2 = make_view(board_clip_h2)
 
-surf_plot(view_clip_h2, clip_h2, JXG.palette.red);
+surf_plot(view_clip_h2, clip_h2, red);
       
 const view_scale_h2 = make_view(board_scale_h2)
       
-surf_plot(view_scale_h2, scale_h2, JXG.palette.green);
+surf_plot(view_scale_h2, scale_h2, green);
 
 // h3
 const view_lin_h3 = make_view(board_lin_h3)
       
-surf_plot(view_lin_h3, lin_h3, JXG.palette.blue);
+surf_plot(view_lin_h3, lin_h3, blue);
 
 const view_clip_h3 = make_view(board_clip_h3)
       
-surf_plot(view_clip_h3, clip_h3, JXG.palette.red);
+surf_plot(view_clip_h3, clip_h3, red);
 
 const view_scale_h3 = make_view(board_scale_h3)
 
-surf_plot(view_scale_h3, scale_h3, JXG.palette.green);
+surf_plot(view_scale_h3, scale_h3, green);
 
 
 
