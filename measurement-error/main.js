@@ -95,19 +95,13 @@ ols = function(x, y) {
 
 // Data
 
-// Useful vector functions
-const add = JXG.Math.Statistics.add,
-            mult = JXG.Math.Statistics.multiply,
-            sub = JXG.Math.Statistics.subtract,
-            sum = JXG.Math.Statistics.sum;
-
 // No. of points
 n = 200;
 const x = [...Array(n).keys().map((x) => (8*x/(n-1) + 1))];
 const e = [...Array(n).keys().map((x) => JXG.Math.Statistics.randomNormal(0, 1))];
-const y = add(e,
-    add(1,
-        mult(0.5, x)
+const y = stats.add(e,
+    stats.add(1,
+        stats.multiply(0.5, x)
     )
 );
 
@@ -119,8 +113,8 @@ const ey = [...Array(n).keys().map((x) => JXG.Math.Statistics.randomNormal(0, 1)
 // Plot data with errors
 x.forEach((x, i) => {
     const y = 1 + 0.5*x + e[i];
-    brd.create('point', [() => {return x+errX.Value()*ex[i]},
-    () => {return y+errY.Value()*ey[i]}],
+    brd.create('point', [() => {return x+Math.sqrt(errX.Value())*ex[i]},
+        () => {return y+Math.sqrt(errY.Value())*ey[i]}],
     {name:'', size:2, color:JXG.palette.red, opacity: 0.5});
 });
 
@@ -135,8 +129,8 @@ x.forEach((x, i) => {
 
 // Plot regression line with errors
 const regLineObs = function(v) {
-    let xObs = add(x, mult(errX.Value(), ex));
-    let yObs = add(y, mult(errY.Value(), ey));
+    let xObs = stats.add(x, stats.multiply(Math.sqrt(errX.Value()), ex));
+    let yObs = stats.add(y, stats.multiply(Math.sqrt(errY.Value()), ey));
     let aObs, bObs;
     [aObs, bObs] = ols(xObs, yObs);
     return aObs + bObs*v;
@@ -168,17 +162,57 @@ const regLine = brd.create('functiongraph',
 
 
 const regLineObsBeta = function() {
-    let xObs = add(x, mult(errX.Value(), ex));
-    let yObs = add(y, mult(errY.Value(), ey));
+    let xObs = stats.add(x, stats.multiply(Math.sqrt(errX.Value()), ex));
+    let yObs = stats.add(y, stats.multiply(Math.sqrt(errY.Value()), ey));
     let aObs, bObs;
     [aObs, bObs] = ols(xObs, yObs);
     return bObs.toFixed(2);
 };
 
+// Show true and estimated slope parameters
 const trueBeta = '\\(\\beta\\) = ' + b.toFixed(2);
 const obsBeta = function() {return '\\(\\hat{\\beta}\\) = ' + regLineObsBeta();};
 
 brd.create('text', [3, 1, '\\(\\beta\\) = 0.5'], {fontSize: 18,
     color:JXG.palette.blue});
 brd.create('text', [7, 1, obsBeta], {fontSize: 18,
+    color:JXG.palette.red});
+
+
+// Show standard error
+
+const regLineObsParam = function() {
+    let xObs = stats.add(x, stats.multiply(Math.sqrt(errX.Value()), ex));
+    let yObs = stats.add(y, stats.multiply(Math.sqrt(errY.Value()), ey));
+    let aObs, bObs;
+    [aObs, bObs] = ols(xObs, yObs);
+    return [aObs, bObs];
+};
+
+const residuals = function() {
+    let a, b;
+    [a, b] = regLineObsParam();
+    const xObs = stats.add(x, stats.multiply(Math.sqrt(errX.Value()), ex));
+    const yObs = stats.add(y, stats.multiply(Math.sqrt(errY.Value()), ey));
+    const yHat = stats.add(a, stats.multiply(b, xObs));
+    resids = stats.subtract(yObs, yHat);
+    return resids;
+};
+
+const se = function() {
+    const r = residuals();
+    const se = Math.sqrt(
+        (1 / (n - 2)) * stats.sum(stats.multiply(r, r)) /
+            stats.sum(stats.multiply(stats.subtract(x, stats.mean(x)), stats.subtract(x, stats.mean(x))))
+    );
+    return se;
+};
+
+const printSe = function() {
+    seVal = se();
+    return 'SE = ' + seVal.toFixed(3);
+};
+
+brd.create('text', [7, 0.5, printSe],
+    {fontSize: 18,
     color:JXG.palette.red});
