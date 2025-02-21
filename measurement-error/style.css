@@ -1,13 +1,13 @@
 .container {
     display: grid;
     align-items: center;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
 }
 
 .jxgbox {
-    width: 95%;
+    width: 75%;
     aspect-ratio: 1 / 1;
-    border-radius: 0px;
+    /* border-radius: 0px; */
     /* margin: 10px; */
-    border-width: 1px;
+    border-width: 0px;
 }

@@ -2,8 +2,8 @@ JXG.Options.text.useMathJax = true;
       
 // Board
 const brd = JXG.JSXGraph.initBoard('jxgbox',
-    {boundingbox: [-10, 10, 10, -10],
-        axis:true,
+    {boundingbox: [-1, 10, 10, -1],
+        axis:false,
         defaultAxes: {
             x: {
                 name: 'x',
@@ -30,10 +30,40 @@ const brd = JXG.JSXGraph.initBoard('jxgbox',
         },
         showNavigation:false,
         showCopyright:false});
+
+const xAxis = brd.create('axis',
+    [[0, 0], [1, 0]],
+    {straightFirst: false,
+        name: 'x',
+        withLabel: true,
+        label: {
+            position: 'rt',
+            anchorX: 'right',
+            anchorY: 'bottom',
+            fontSize: 18,
+        },
+        ticks: { visible: false}});
+const yAxis = brd.create('axis',
+    [[0, 0], [0, 1]],
+    {straightFirst: false,
+        name: 'y',
+        withLabel: true,
+        label: {
+            position: 'rt',
+            anchorX: 'left',
+            anchorY: 'top',
+            fontSize: 18,
+        },
+        ticks: { visible: false }});
       
+
 // Sliders
-const errX = brd.create('slider', [[-8, -6], [0, -6], [0, 0, 10]], {name:'\\(\\sigma^2_{e_x}\\)'}),
-errY = brd.create('slider', [[-8, -8], [0, -8], [0, 0, 10]], {name:'\\(\\sigma^2_{e_y}\\)'});
+const errX = brd.create('slider',
+    [[1, 9], [5, 9], [0, 0, 10]],
+    {name:'\\(\\sigma^2_{e_x}\\)'}),
+errY = brd.create('slider',
+    [[1, 8], [5, 8], [0, 0, 10]],
+    {name:'\\(\\sigma^2_{e_y}\\)'});
 
 
 
@@ -73,7 +103,7 @@ const add = JXG.Math.Statistics.add,
 
 // No. of points
 n = 200;
-const x = [...Array(n).keys().map((x) => (20*x/(n-1) - 10))];
+const x = [...Array(n).keys().map((x) => (8*x/(n-1) + 1))];
 const e = [...Array(n).keys().map((x) => JXG.Math.Statistics.randomNormal(0, 1))];
 const y = add(e,
     add(1,
@@ -113,7 +143,7 @@ const regLineObs = function(v) {
 };
 
 const regLineObsPlot = brd.create('functiongraph',
-      regLineObs,
+    [regLineObs, 0, 10],
         {
             strokeWidth: 3,
             strokeColor: JXG.palette.red,
@@ -129,7 +159,9 @@ const olsFit = function(x, y) {
     return 1 + 0.5*x;
 };       
 
-const regLine = brd.create('functiongraph', olsFit, {
+const regLine = brd.create('functiongraph',
+    [olsFit, 0, 10],
+    {
     strokeWidth: 3,
     strokeColor: JXG.palette.blue
 });
@@ -143,11 +175,10 @@ const regLineObsBeta = function() {
     return bObs.toFixed(2);
 };
 
-// const MSEVal = function() {return 'MSE = ' + MSE().toFixed(2);};
 const trueBeta = '\\(\\beta\\) = ' + b.toFixed(2);
 const obsBeta = function() {return '\\(\\hat{\\beta}\\) = ' + regLineObsBeta();};
 
-brd.create('text', [5, -5, '\\(\\beta\\) = 0.5'], {fontSize: 18,
+brd.create('text', [3, 1, '\\(\\beta\\) = 0.5'], {fontSize: 18,
     color:JXG.palette.blue});
-brd.create('text', [5, -7, obsBeta], {fontSize: 18,
+brd.create('text', [7, 1, obsBeta], {fontSize: 18,
     color:JXG.palette.red});
