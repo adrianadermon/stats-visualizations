@@ -32,8 +32,8 @@ const brd = JXG.JSXGraph.initBoard('jxgbox',
         showCopyright:false});
       
 // Sliders
-const errX = brd.create('slider', [[-8, -6], [0, -6], [0, 0, 10]], {name:'\\(\\lambda_x\\)'}),
-errY = brd.create('slider', [[-8, -8], [0, -8], [0, 0, 10]], {name:'\\(\\lambda_y\\)'});
+const errX = brd.create('slider', [[-8, -6], [0, -6], [0, 0, 10]], {name:'\\(\\sigma^2_{e_x}\\)'}),
+errY = brd.create('slider', [[-8, -8], [0, -8], [0, 0, 10]], {name:'\\(\\sigma^2_{e_y}\\)'});
 
 
 
