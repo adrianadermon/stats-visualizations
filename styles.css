@@ -30,8 +30,14 @@ h1, h2, h3, h4, h5, h6 {
     /* margin: 10px; */
     /* border-width: 0px; */
 }
-      
 
+/* MathJax colors */
+.math-jax-blue {
+    color: var(--graph-blue);
+}
+.math-jax-red {
+    color: var(--graph-red);
+}
 
 /* Style hyperlinks */
 a {
