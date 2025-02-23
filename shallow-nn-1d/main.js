@@ -1,5 +1,7 @@
 JXG.Options.text.useMathJax = true;
 
+import { relu, sigmoid, leakyRelu, hardSwish } from '../modules/activation-functions.js';
+
 // Get colors from CSS
 const documentCSS = window.getComputedStyle(document.body);
 const blue = documentCSS.getPropertyValue('--graph-blue');
@@ -285,15 +287,6 @@ const title_lin_h1 = board_lin_h1.create('text', [-1.5, 3.5, '\\[\\theta_{10} + 
 let activationMenu = document.getElementById('activation-select');
 activationMenu.addEventListener('change', setActivationFunction);
 
-function relu(x) { return Math.max(0, x) };
-function sigmoid(x) { return 1 / (1 + Math.E ** x) };
-function leaky_relu(x) { return x >= 0 ? x : 0.1 * x };
-function hardswish(x) {
-        return (x < -3) ? 0 :
-                x > 3 ? x :
-                        x * (x + 3) / 6
-};
-function passthrough(x) { return x };
 let activation = relu;
 
 function setActivationFunction(event) {
@@ -304,13 +297,13 @@ function setActivationFunction(event) {
                 activation = sigmoid;
                 board_output.fullUpdate();
         } else if (activationMenu.value == 'leaky_relu') {
-                activation = leaky_relu;
+                activation = leakyRelu;
                 board_output.fullUpdate();
         } else if (activationMenu.value == 'hardswish') {
-                activation = hardswish;
+                activation = hardSwish;
                 board_output.fullUpdate();
         } else if (activationMenu.value == 'passthrough') {
-                activation = passthrough;
+                activation = (x) => x;
                 board_output.fullUpdate();
         }
 };

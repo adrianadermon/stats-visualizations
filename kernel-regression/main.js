@@ -1,6 +1,6 @@
 JXG.Options.text.useMathJax = true;
 
-import { triKernel, rectKernel, epaKernel, gaussKernel, kernel } from './modules/kernels.js';
+import { triKernel, rectKernel, epaKernel, gaussKernel, kernel } from '../modules/kernels.js';
 
 // Get colors from CSS
 const documentCSS = window.getComputedStyle(document.body);
