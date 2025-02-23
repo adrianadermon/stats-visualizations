@@ -42,9 +42,9 @@ const brd = JXG.JSXGraph.initBoard('jxgbox',
 const alpha = brd.create('slider', [[-8, -6], [0, -6], [-6, 0, 6]], { name: '\\(\\alpha\\)' });
 beta = brd.create('slider', [[-8, -8], [0, -8], [-2, 1, 2]], { name: '\\(\\beta\\)' });
 
-const ols_fit = (x) => alpha.Value() + beta.Value() * x;
+const olsFit = (x) => alpha.Value() + beta.Value() * x;
 
-const regLine = brd.create('functiongraph', ols_fit, {
+const regLine = brd.create('functiongraph', olsFit, {
         strokeWidth: 3,
         strokeColor: blue
 });

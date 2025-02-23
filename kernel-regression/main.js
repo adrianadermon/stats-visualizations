@@ -1,11 +1,13 @@
 JXG.Options.text.useMathJax = true;
 
+import { triKernel, rectKernel, epaKernel, gaussKernel, kernel } from './modules/kernels.js';
+
 // Get colors from CSS
 const documentCSS = window.getComputedStyle(document.body);
-const blue = documentCSS.getPropertyValue('--graph-blue');
-const red = documentCSS.getPropertyValue('--graph-red');
-const black = documentCSS.getPropertyValue('--graph-black');
-const green = documentCSS.getPropertyValue('--graph-green');
+const blue = documentCSS.getPropertyValue('--graph-blue'),
+        red = documentCSS.getPropertyValue('--graph-red'),
+        black = documentCSS.getPropertyValue('--graph-black'),
+        green = documentCSS.getPropertyValue('--graph-green');
 
 
 // Board
@@ -47,42 +49,12 @@ const yAxis = brd.create('axis',
         });
 
 // Sliders
-const x0 = brd.create('slider', [[1, 8], [5, 8], [1, 5, 9]], { name: '\\(x_0\\)' });
+const x0 = brd.create('slider', [[1, 8], [5, 8], [1, 5, 9]], { name: '\\(x_0\\)' }),
 bw = brd.create('slider', [[1, 7], [5, 7], [0, 1, 5]], { name: '\\(h\\)' });
 
 function lb() { return x0.Value() - bw.Value() };
 function ub() { return x0.Value() + bw.Value() };
 function mid() { return x0.Value() };
-
-// Kernel functions
-
-// Triangular kernel
-function triKernel(u) {
-        return Math.abs(u) <= 1 ? 1 - Math.abs(u) : 0;
-};
-
-// Rectangular kernel
-function rectKernel(u) {
-        return Math.abs(u) <= 1 ? 1 / 2 : 0;
-};
-
-// Epanechnikov kernel
-function epaKernel(u) {
-        return Math.abs(u) <= 1 ? (3 / 4) * (1 - u ** 2) : 0;
-};
-
-// Gaussian kernel
-function gaussKernel(u) {
-        return (1 / Math.sqrt(2 * Math.PI)) * Math.E ** (- (1 / 2) * u ** 2);
-};
-
-
-// Kernel function
-function kernel(x0, xi, h, kernFunc) {
-        const u = (x0 - xi) / h;
-        return kernFunc(u);
-};
-
 
 // Default kernel function
 let kernelFunc = epaKernel;
@@ -176,7 +148,7 @@ const ymid = () => kernReg(mid(), bw.Value());
 // Data
 
 // No. of points
-n = 50;
+const n = 50;
 const x = [...Array(n).keys().map((x) => (8 * x / (n - 1) + 1))];
 const e = [...Array(n).keys().map((x) => JXG.Math.Statistics.randomNormal(0, 1))];
 const y = stats.add(e,
@@ -186,7 +158,7 @@ const y = stats.add(e,
 );
 
 // Plot data
-points = x.map((x, i) => {
+const points = x.map((x, i) => {
         const y = 2 + 0.5 * x + e[i];
         brd.create('point', [x, y],
                 {

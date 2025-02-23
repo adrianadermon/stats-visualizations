@@ -44,9 +44,9 @@ beta1 = brd.create('slider', [[-8, -7], [0, -7], [-2, 1, 2]], { name: '\\(\\beta
 beta2 = brd.create('slider', [[-8, -8], [0, -8], [-2, 1, 2]], { name: '\\(\\beta_2\\)' });
 
 
-const ols_fit = (x) => alpha.Value() + beta1.Value() * x + beta2.Value() * x ** 2;
+const olsFit = (x) => alpha.Value() + beta1.Value() * x + beta2.Value() * x ** 2;
 
-const regLine = brd.create('functiongraph', ols_fit, {
+const regLine = brd.create('functiongraph', olsFit, {
         strokeWidth: 3,
         strokeColor: blue
 });
