@@ -314,3 +314,35 @@ function localLine(x0, h) {
         return [[lb, a + b * lb], [ub, a + b * ub]];
 }
 
+
+
+
+
+
+
+// // WLS regression
+// function wls(x, y, w) {
+//          // X matrix with constant
+//          const X = math.transpose(math.matrix([math.ones(n), x]));
+
+//          // // X'X
+//          // const XtX = math.multiply(math.transpose(X), X);
+
+//          // // X'y
+//          // const Xty = math.multiply(math.transpose(X), y);
+
+//          // // Solve for b in X'X b = X'y with LU decomposition
+//          // const [a, b] = math.lusolve(XtX, Xty)
+
+//          // W
+//          const W = math.diag(w);
+
+//          // Solve for b in X'W X b = X'W y with LU decomposition
+//          const Xt = math.transpose(X);
+//          const XtWX = math.multiply(Xt, W, X);
+//          const XtWy = math.multiply(Xt, W, y);
+//          const [a, b] = math.lusolve(XtWX, XtWy);
+
+//          return [a, b];
+// };
+
