@@ -50,7 +50,7 @@ const yAxis = brd.create('axis',
 
 // Sliders
 const x0 = brd.create('slider', [[1, 8], [5, 8], [1, 5, 9]], { name: '\\(x_0\\)' }),
-bw = brd.create('slider', [[1, 7], [5, 7], [0, 1, 5]], { name: '\\(h\\)' });
+        bw = brd.create('slider', [[1, 7], [5, 7], [0, 1, 5]], { name: '\\(h\\)' });
 
 function lb() { return x0.Value() - bw.Value() };
 function ub() { return x0.Value() + bw.Value() };
@@ -83,62 +83,6 @@ function setKernelFunction(event) {
 // Useful vector functions
 const stats = JXG.Math.Statistics;
 
-
-// Weighted mean
-function wmean(x, w) {
-        return stats.sum(stats.multiply(w, x)) / stats.sum(w);
-};
-
-// WLS regression
-function wls(x, y, w) {
-        const xm = wmean(x, w),
-                ym = wmean(y, w);
-
-        const xd = stats.subtract(x, xm);
-        const yd = stats.subtract(y, ym);
-        const covariance = stats.sum(
-                stats.multiply(w,
-                        stats.multiply(xd, yd)));
-
-        const variance =
-                stats.sum(
-                        stats.multiply(w,
-                                stats.multiply(xd, xd)));
-
-        const bhat = covariance / variance;
-
-        const ahat = ym - bhat * xm;
-
-        return [ahat, bhat]
-};
-
-// Calculate kernel regression
-function kernReg(x0, h) {
-        const w = x.map((v) => kernel(x0, v, h, kernelFunc));
-
-        let a, b;
-        [a, b] = wls(x, y, w);
-        const y0 = a + b * x0;
-        return y0;
-}
-
-// Calculate kernel regression parameters
-function kernRegParam(x0, h) {
-        const w = x.map((v) => kernel(x0, v, h, kernelFunc));
-        let a, b;
-        [a, b] = wls(x, y, w);
-        return a + b * x0;
-}
-
-// Calculate endpoints for local regression line
-function localLine(x0, h) {
-        const w = x.map((v) => kernel(x0, v, h, kernelFunc));
-        let a, b;
-        [a, b] = wls(x, y, w);
-        const lb = x0 - h;
-        const ub = x0 + h;
-        return [[lb, a + b * lb], [ub, a + b * ub]];
-}
 
 // Calculate height at midpoint
 const ymid = () => kernReg(mid(), bw.Value());
@@ -261,4 +205,112 @@ const weightLine = brd.create('functiongraph',
                 strokeColor: green,
         });
 
+
+// Weighted mean
+function wmean(x, w) {
+        return stats.sum(stats.multiply(w, x)) / stats.sum(w);
+};
+
+// Weighted variance
+function wvar(x, w) {
+        const xm = wmean(x, w);
+
+        const xd = stats.subtract(x, xm);
+
+        return stats.sum(
+                stats.multiply(w,
+                        stats.multiply(xd, xd)));
+};
+
+// Weighted covariance
+function wcov(x, y, w) {
+        const xm = wmean(x, w),
+                ym = wmean(y, w);
+
+        const xd = stats.subtract(x, xm),
+                yd = stats.subtract(y, ym);
+
+        return stats.sum(
+                stats.multiply(w,
+                        stats.multiply(xd, yd)));
+};
+
+// WLS regression
+function wls(x, y, w) {
+        const covyx = wcov(y, x, w);
+        const varx = wvar(x, w);
+
+        const b = covyx / varx;
+        const a = wmean(y, w) - b * wmean(x, w);
+
+        return [a, b];
+};
+
+// WLS regression, two variables
+function wls2(x1, x2, y, w) {
+        const covyx1 = wcov(y, x1, w),
+                covyx2 = wcov(y, x2, w),
+                covx1x2 = wcov(x1, x2, w),
+                varx1 = wvar(x1, w),
+                varx2 = wvar(x2, w);
+
+        const b1 = (covyx1 * varx2 - covyx2 * covx1x2) /
+                (varx1 * varx2 - covx1x2 ** 2);
+
+        const b2 = (covyx2 * varx1 - covyx1 * covx1x2) /
+                (varx1 * varx2 - covx1x2 ** 2);
+
+        const a = wmean(y, w) - b1 * wmean(x1, w) - b2 * wmean(x2, w);
+
+        return [a, b1, b2]
+};
+
+// Quadratic regression
+function wlsSq(x, y, w) {
+        const x2 = stats.multiply(x, x);
+        const [a, b1, b2] = wls2(x, x2, y, w);
+        return x => a + b1 * x + b2 * x ** 2;
+};
+
+
+
+// What is needed?
+
+// To draw local line:
+// input: x0, h
+// output: local regression line in [x0 - h, x0 + h]
+
+// To draw kernel line:
+// input: x, x0, h
+// output: smoothed line from 0 to x0
+
+
+
+// Calculate kernel regression
+function kernReg(x0, h) {
+        const w = x.map((v) => kernel(x0, v, h, kernelFunc));
+
+        let a, b;
+        [a, b] = wls(x, y, w);
+        const y0 = a + b * x0;
+        return y0;
+}
+
+// Calculate kernel regression parameters
+function kernRegParam(x0, h) {
+        const w = x.map((v) => kernel(x0, v, h, kernelFunc));
+        let a, b;
+        [a, b] = wls(x, y, w);
+        return a + b * x0;
+}
+
+// Calculate endpoints for local regression line
+function localLine(x0, h) {
+        const w = x.map((v) => kernel(x0, v, h, kernelFunc));
+        let a, b;
+        [a, b] = wls(x, y, w);
+        const lb = x0 - h;
+        const ub = x0 + h;
+        return [[lb, a + b * lb], [ub, a + b * ub]];
+}
 
