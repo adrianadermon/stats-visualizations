@@ -319,30 +319,29 @@ function localLine(x0, h) {
 
 
 
+// Works, but too slow to be usable
+// WLS regression
+function wlsMat(x, y, w) {
+    // X matrix with constant
+    const X = math.transpose(math.matrix([math.ones(x.length), x]));
 
-// // WLS regression
-// function wls(x, y, w) {
-//          // X matrix with constant
-//          const X = math.transpose(math.matrix([math.ones(n), x]));
+    // // X'X
+    // const XtX = math.multiply(math.transpose(X), X);
 
-//          // // X'X
-//          // const XtX = math.multiply(math.transpose(X), X);
+    // // X'y
+    // const Xty = math.multiply(math.transpose(X), y);
 
-//          // // X'y
-//          // const Xty = math.multiply(math.transpose(X), y);
+    // // Solve for b in X'X b = X'y with LU decomposition
+    // const [a, b] = math.lusolve(XtX, Xty)
 
-//          // // Solve for b in X'X b = X'y with LU decomposition
-//          // const [a, b] = math.lusolve(XtX, Xty)
-
-//          // W
-//          const W = math.diag(w);
-
-//          // Solve for b in X'W X b = X'W y with LU decomposition
-//          const Xt = math.transpose(X);
-//          const XtWX = math.multiply(Xt, W, X);
-//          const XtWy = math.multiply(Xt, W, y);
-//          const [a, b] = math.lusolve(XtWX, XtWy);
-
-//          return [a, b];
-// };
-
+    // W
+    const W = math.diag(w);
+    
+    // Solve for b in X'W X b = X'W y with LU decomposition
+    const Xt = math.transpose(X);
+    const XtWX = math.multiply(Xt, W, X);
+    const XtWy = math.multiply(Xt, W, y);
+    const b = math.lusolve(XtWX, XtWy);
+    
+    return b.valueOf().flat();
+};
