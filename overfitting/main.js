@@ -222,11 +222,30 @@ function polyPred(x, y, P) {
 };
 
 
-const predFunc = polyPred(x, yTrain, 2);
+let predFunc = polyPred(x, yTrain, 2);
+
+// Redefine function for given poly order --- doesn't work
+pOrder.on('drag', function(e){
+    predFunc = polyPred(x, yTrain, pOrder.Value());
+    console.log(pOrder.Value())
+});
+
+
+// Works, but slow because recalculates whole regression for each prediction point
+function predSlow(xVal) {
+    const b = polyReg(x, yTrain, pOrder.Value());
+    // create prediction polynomial function here and return
+    let yPred = 0;
+    for (const [i, v] of b.entries()) {
+        yPred += v * xVal**i;
+    };
+    return yPred;
+};
 
 // Draw prediction line for training data
 const trainPredLine = brdTrain.create('functiongraph',
-    [predFunc, 0.5, 9.5],
+    [predSlow, 0.5, 9.5],
+    // [predFunc, 0.5, 9.5],
     {
         strokeWidth: 3,
         strokeColor: blue
@@ -239,3 +258,4 @@ const testPredLine = brdTest.create('functiongraph',
         strokeWidth: 3,
         strokeColor: blue
 });
+testPredLine.addParents(pOrder);
