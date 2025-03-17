@@ -222,40 +222,61 @@ function polyPred(x, y, P) {
 };
 
 
-let predFunc = polyPred(x, yTrain, 2);
-
-// Redefine function for given poly order --- doesn't work
-pOrder.on('drag', function(e){
-    predFunc = polyPred(x, yTrain, pOrder.Value());
-    console.log(pOrder.Value())
-});
-
-
-// Works, but slow because recalculates whole regression for each prediction point
-function predSlow(xVal) {
-    const b = polyReg(x, yTrain, pOrder.Value());
-    // create prediction polynomial function here and return
-    let yPred = 0;
-    for (const [i, v] of b.entries()) {
-        yPred += v * xVal**i;
-    };
-    return yPred;
-};
+let predFunc = polyPred(x, yTrain, pOrder.Value());
 
 // Draw prediction line for training data
-const trainPredLine = brdTrain.create('functiongraph',
-    [predSlow, 0.5, 9.5],
-    // [predFunc, 0.5, 9.5],
-    {
-        strokeWidth: 3,
-        strokeColor: blue
-});
-
-// Draw prediction line for test data
-const testPredLine = brdTest.create('functiongraph',
+let trainPredLine = brdTrain.create('functiongraph',
     [predFunc, 0.5, 9.5],
     {
         strokeWidth: 3,
         strokeColor: blue
+    });
+
+// Draw prediction line for test data
+let testPredLine = brdTest.create('functiongraph',
+    [predFunc, 0.5, 9.5],
+    {
+        strokeWidth: 3,
+        strokeColor: blue
+    });
+
+// Update prediction lines
+pOrder.on('drag', function(e){
+    predFunc = polyPred(x, yTrain, pOrder.Value());
+    brdTrain.removeObject(trainPredLine);
+    trainPredLine = brdTrain.create('functiongraph',
+        [predFunc, 0.5, 9.5],
+        {
+            strokeWidth: 3,
+            strokeColor: blue
+        });
+    brdTest.removeObject(testPredLine);
+    testPredLine = brdTest.create('functiongraph',
+        [predFunc, 0.5, 9.5],
+        {
+            strokeWidth: 3,
+            strokeColor: blue
+        });
 });
-testPredLine.addParents(pOrder);
+
+
+// // Works, but slow because recalculates whole regression for each prediction point
+// function predSlow(xVal) {
+//     const b = polyReg(x, yTrain, pOrder.Value());
+//     // create prediction polynomial function here and return
+//     let yPred = 0;
+//     for (const [i, v] of b.entries()) {
+//         yPred += v * xVal**i;
+//     };
+//     return yPred;
+// };
+
+// // Draw prediction line for training data
+// const trainPredLine = brdTrain.create('functiongraph',
+//     [predSlow, 0.5, 9.5],
+//     // [predFunc, 0.5, 9.5],
+//     {
+//         strokeWidth: 3,
+//         strokeColor: blue
+// });
+
