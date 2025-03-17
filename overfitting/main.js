@@ -44,9 +44,13 @@ const yAxisTrain = brdTrain.create('axis',
 
 
 // // Sliders
-// const alpha = brd.create('slider', [[-8, -6], [0, -6], [-6, 0, 6]], { name: '\\(\\alpha\\)' });
-// beta = brd.create('slider', [[-8, -8], [0, -8], [-2, 1, 2]], { name: '\\(\\beta\\)' });
+const pOrder = brdTrain.create('slider',
+    [[1, 8], [3, 8], [1, 1, 19]],
+    { name: 'Polynomial degree',
+        snapWidth: 1,
+        digits: 0});
 
+function pVal() { return pOrder.Value(); };
 // const olsFit = (x) => alpha.Value() + beta.Value() * x;
 
 // Useful vector functions
@@ -55,8 +59,6 @@ const add = JXG.Math.Statistics.add,
         sub = JXG.Math.Statistics.subtract,
         sum = JXG.Math.Statistics.sum;
 
-// function alphaVal() { return alpha.Value(); };
-// function betaVal() { return beta.Value(); };
 
 // Plot residuals
 // x.forEach((x, i) => {
@@ -220,7 +222,7 @@ function polyPred(x, y, P) {
 };
 
 
-const predFunc = polyPred(x, yTrain, 19);
+const predFunc = polyPred(x, yTrain, 2);
 
 // Draw prediction line for training data
 const trainPredLine = brdTrain.create('functiongraph',
