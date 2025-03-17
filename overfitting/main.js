@@ -60,23 +60,7 @@ const add = JXG.Math.Statistics.add,
         sum = JXG.Math.Statistics.sum;
 
 
-// Plot residuals
-// x.forEach((x, i) => {
-//         function yP() { return yPred(x); };
-//         brd.create('segment', [[x, y[i]], [x, yP]], { strokeWidth: 1, dash: 2, color: blue });
-// });
 
-
-// // Calculate MSE
-// function MSE() {
-//         const residuals = sub(y, yPred2());
-//         return sum(
-//                 mult(residuals, residuals)
-//         ) / n
-// };
-
-// function MSEVal() { return 'MSE = ' + MSE().toFixed(2); };
-// brd.create('text', [5, -5, MSEVal], { fontSize: 18 });
 
 // Board, test data
 const brdTest = JXG.JSXGraph.initBoard('test',
@@ -146,16 +130,6 @@ function dgp(x, e) {
 
 const yTrain = i.map((i) => dgp(x[i], eTrain[i]));
 const yTest = i.map((i) => dgp(x[i], eTest[i]));
-// const yTrain = add(eTrain,
-//         add(1,
-//                 mult(0.5, x)
-//         )
-// );
-// const yTest = add(eTest,
-//         add(1,
-//                 mult(0.5, x)
-//         )
-// );
 
 // Plot training data
 i.forEach((i) => {
@@ -279,4 +253,37 @@ pOrder.on('drag', function(e){
 //         strokeWidth: 3,
 //         strokeColor: blue
 // });
+
+// Plot residuals
+x.forEach((x, i) => {
+        function yP() { return predFunc(x); };
+        brdTrain.create('segment', [[x, yTrain[i]], [x, yP]], { strokeWidth: 1, dash: 2, color: blue });
+        brdTest.create('segment', [[x, yTest[i]], [x, yP]], { strokeWidth: 1, dash: 2, color: blue });
+});
+
+
+// Ugly code --- clean up!
+
+// Calculate MSE
+function MSE() {
+        const residuals = i.map((i) => yTrain[i] - predFunc(x[i]));
+        
+        return sum(
+                mult(residuals, residuals)
+        ) / n
+};
+
+function MSEVal() { return 'MSE = ' + MSE().toFixed(2); };
+brdTrain.create('text', [1, 9, MSEVal], { fontSize: 18 });
+
+function MSETest() {
+        const residuals = i.map((i) => yTest[i] - predFunc(x[i]));
+        
+        return sum(
+                mult(residuals, residuals)
+        ) / n
+};
+
+function MSETestVal() { return 'MSE = ' + MSETest().toFixed(2); };
+brdTest.create('text', [1, 9, MSETestVal], { fontSize: 18 });
 
