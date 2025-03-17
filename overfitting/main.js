@@ -123,6 +123,7 @@ const x = i.map((x) => (9 * x / (n - 1)) + 0.5);
 const eTrain = i.map((x) => JXG.Math.Statistics.randomNormal(0, eVar));
 const eTest = i.map((x) => JXG.Math.Statistics.randomNormal(0, eVar));
 
+// DGP
 function dgp(x, e) {
     y = b0 + b1*x + b2*x**2 + e;
     return y;
@@ -140,6 +141,24 @@ i.forEach((i) => {
 i.forEach((i) => {
         brdTest.create('point', [x[i], yTest[i]], { name: '', size: 2, color: blue });
 });
+
+// Plot DGP
+trainDGPLine = brdTrain.create('functiongraph',
+[(x) => dgp(x, 0), 0.5, 9.5],
+{
+strokeWidth: 1,
+strokeColor: blue,
+dash: 4
+});
+
+testDGPLine = brdTest.create('functiongraph',
+[(x) => dgp(x, 0), 0.5, 9.5],
+{
+strokeWidth: 1,
+strokeColor: blue,
+dash: 4
+});
+
 
 // function yPred3(a, b) {
 //         return add(a,
