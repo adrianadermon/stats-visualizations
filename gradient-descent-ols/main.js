@@ -7,7 +7,7 @@ const red = documentCSS.getPropertyValue('--graph-red');
 
 // Board
 const brd = JXG.JSXGraph.initBoard('jxgbox',
-    {boundingbox: [-10, 10, 10, -10],
+    {boundingbox: [-1, 10, 10, -1],
         axis:true,
         defaultAxes: {
             x: {
@@ -37,15 +37,15 @@ const brd = JXG.JSXGraph.initBoard('jxgbox',
         showCopyright:false});
       
 // Sliders
-let alpha = 4*Math.random() - 2,
-    beta = 2* Math.random() - 1,
-    alpha0 = 4*Math.random() - 2,
-    beta0 = 2*Math.random() - 1;
+let // alpha = 4*Math.random() - 2,
+    // beta = 2* Math.random() - 1,
+    a0 = 4*Math.random() - 2,
+    b0 = 2*Math.random() - 1;
 
 // const alpha = brd.create('slider', [[-8, -6], [0, -6], [-6, 0, 6]], {name:'\\(\\alpha\\)'});
 // beta = brd.create('slider', [[-8, -8], [0, -8], [-2, 1, 2]], {name:'\\(\\beta\\)'});
 
-const olsFit = (x) => alpha0 + beta0 * x;
+const olsFit = (x) => a0 + b0 * x;
 
 const regLine = brd.create('functiongraph', olsFit, {
     strokeWidth: 3,
@@ -60,15 +60,77 @@ const add = JXG.Math.Statistics.add,
             sub = JXG.Math.Statistics.subtract,
             sum = JXG.Math.Statistics.sum;
 
+
 // No. of points
-n = 30;
-const x = [...Array(n).keys().map((x) => (20*x/(n-1) - 10))];
-const e = [...Array(n).keys().map((x) => JXG.Math.Statistics.randomNormal(0, 2))];
-const y = add(e,
-    add(alpha,
-        mult(beta, x)
-    )
-);
+const n = 20;
+// Error variance
+const eVar = 2;
+// parameters
+const a = 1,
+      b = 1;
+const i = [...Array(n).keys()]
+const x = i.map((x) => (9 * x / (n - 1)) + 0.5);
+const e = i.map(() => JXG.Math.Statistics.randomNormal(0, eVar));
+
+// DGP
+function dgp(x, e) {
+    const y = a + b*x + e;
+    return y;
+};
+
+const y = i.map((i) => dgp(x[i], e[i]));
+
+// Plot data
+x.forEach((x, i) => {
+    const y = a + b*x + e[i];
+    brd.create('point', [x, y], {name:'', size:2, color:blue});
+});
+
+
+// Gradients
+function dLossAlpha(a, b, x, y) {
+    return 2*(a + b*x - y)
+};
+
+function dLossBeta(a, b, x, y) {
+    return 2*x*(a + b*x - y)
+};
+
+// Calculate gradients
+let ga = sum(i.map((i) => dLossAlpha(a0, b0, x[i], y[i])));
+let gb = sum(i.map((i) => dLossBeta(a0, b0, x[i], y[i])));
+
+// Gradient learning rate
+let learningRate = 0.0001;
+
+let a1 = a0 - learningRate * ga;
+let b1 = b0 - learningRate * gb;
+
+
+const regLine1 = brd.create('functiongraph',
+    (x) => a1 + b1 * x,
+    {
+    strokeWidth: 3,
+    strokeColor: red
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const alphaVal = function() {return alpha.Value();};
 const betaVal = function() {return beta.Value();};
@@ -83,11 +145,6 @@ function yPred2() {
         mult(betaVal(), x)
     )};
 
-// Plot data
-x.forEach((x, i) => {
-    const y = alpha + beta*x + e[i];
-    brd.create('point', [x, y], {name:'', size:2, color:blue});
-});
 
 // // Plot residuals
 // x.forEach((x, i) => {

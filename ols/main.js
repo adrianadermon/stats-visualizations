@@ -58,7 +58,7 @@ const add = JXG.Math.Statistics.add,
         sum = JXG.Math.Statistics.sum;
 
 // No. of points
-n = 30;
+n = 20;
 const x = [...Array(n).keys().map((x) => (20 * x / (n - 1) - 10))];
 const e = [...Array(n).keys().map((x) => JXG.Math.Statistics.randomNormal(0, 2))];
 const y = add(e,
@@ -88,11 +88,35 @@ x.forEach((x, i) => {
         brd.create('point', [x, y], { name: '', size: 2, color: blue });
 });
 
+
+// Plot squared residuals
+x.forEach((x, i) => {
+        function yP() { return yPred(x); };
+        const pObs = [x, y[i]];
+        const pPred = [x, yP];
+        brd.create('regularpolygon', [pPred, pObs, 4],
+                {
+                        vertices:
+                        {
+                                visible: false
+                        },
+                        fillColor: blue,
+                        fillOpacity: 0.05,
+                        withLines: true,
+                        borders: {
+                                strokeWidth: 1,
+                                dash: 2
+                        }
+                });
+        // brd.create('segment', [[x, y[i]], [x, yP]], { strokeWidth: 1, dash: 2, color: blue });
+});
+
 // Plot residuals
 x.forEach((x, i) => {
         function yP() { return yPred(x); };
-        brd.create('segment', [[x, y[i]], [x, yP]], { strokeWidth: 1, dash: 2, color: blue });
+        brd.create('segment', [[x, y[i]], [x, yP]], { strokeWidth: 2, color: blue });
 });
+
 
 
 // Calculate MSE
