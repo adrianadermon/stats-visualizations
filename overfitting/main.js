@@ -125,7 +125,7 @@ const eTest = i.map((x) => JXG.Math.Statistics.randomNormal(0, eVar));
 
 // DGP
 function dgp(x, e) {
-    y = b0 + b1*x + b2*x**2 + e;
+    const y = b0 + b1*x + b2*x**2 + e;
     return y;
 };
 
