@@ -1,3 +1,4 @@
+
 JXG.Options.text.useMathJax = true;
 
 import { triKernel, rectKernel, epaKernel, gaussKernel, kernel } from '../modules/kernels.js';
@@ -50,7 +51,7 @@ const yAxis = brd.create('axis',
 
 // Sliders
 const x0 = brd.create('slider', [[1, 8], [5, 8], [1, 5, 9]], { name: '\\(x_0\\)' }),
-        bw = brd.create('slider', [[1, 7], [5, 7], [0, 1, 5]], { name: '\\(h\\)' });
+        bw = brd.create('slider', [[1, 7], [5, 7], [0.1, 1, 5]], { name: '\\(h\\)' });
 
 function lb() { return x0.Value() - bw.Value() };
 function ub() { return x0.Value() + bw.Value() };
@@ -84,27 +85,31 @@ function setKernelFunction(event) {
 const stats = JXG.Math.Statistics;
 
 
-// Calculate height at midpoint
-const ymid = () => kernReg(mid(), bw.Value());
-
-
-
 // Data
 
 // No. of points
 const n = 50;
-const x = [...Array(n).keys().map((x) => (8 * x / (n - 1) + 1))];
-const e = [...Array(n).keys().map((x) => JXG.Math.Statistics.randomNormal(0, 1))];
-const y = stats.add(e,
-        stats.add(2,
-                stats.multiply(0.5, x)
-        )
-);
+// Error variance
+const eVar = 1;
+// parameters
+const b0 = 2,
+      b1 = 0.5;
+const i = [...Array(n).keys()]
+const x = i.map((i) => (8 * i / (n - 1)) + 1);
+const e = i.map((i) => stats.randomNormal(0, eVar));
+// DGP
+function dgp(x, e) {
+    const y = b0 + b1*x + e;
+    return y;
+};
+
+const y = i.map((i) => dgp(x[i], e[i]));
+
+
 
 // Plot data
 const points = x.map((x, i) => {
-        const y = 2 + 0.5 * x + e[i];
-        brd.create('point', [x, y],
+        brd.create('point', [x, y[i]],
                 {
                         name: '',
                         // size:1,
@@ -165,6 +170,8 @@ const plotLine = brd.create('segment',
         });
 
 
+// Calculate height at midpoint
+const ymid = () => kernReg(mid(), bw.Value());
 
 // Draw vertical to midpoint
 const midLine = brd.create('segment',
@@ -267,22 +274,13 @@ function wls2(x1, x2, y, w) {
 
 // Quadratic regression
 function wlsSq(x, y, w) {
-        const x2 = stats.multiply(x, x);
-        const [a, b1, b2] = wls2(x, x2, y, w);
-        return x => a + b1 * x + b2 * x ** 2;
+    const x2 = stats.multiply(x, x);
+    const [a, b1, b2] = wls2(x, x2, y, w);
+    const yPred = x => a + b1 * x + b2 * x ** 2;
+    return yPred;
 };
 
 
-
-// What is needed?
-
-// To draw local line:
-// input: x0, h
-// output: local regression line in [x0 - h, x0 + h]
-
-// To draw kernel line:
-// input: x, x0, h
-// output: smoothed line from 0 to x0
 
 
 
@@ -313,6 +311,19 @@ function localLine(x0, h) {
         const ub = x0 + h;
         return [[lb, a + b * lb], [ub, a + b * ub]];
 }
+
+
+
+
+// What is needed?
+
+// To draw local line:
+// input: x0, h
+// output: local regression line in [x0 - h, x0 + h]
+
+// To draw kernel line:
+// input: x, x0, h
+// output: smoothed line from 0 to x0
 
 
 
