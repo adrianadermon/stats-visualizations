@@ -14,12 +14,12 @@ const origin = brd.create('point',[0, 0],
     });
 
 const p1 = brd.create('point', [1, 1],
-    { name: 'a' });
+    { name: '\\(\\boldsymbol{a}\\)' });
 const l1 = brd.create('arrow', [origin, p1],
     { fixed: true });
 
 const p2 = brd.create('point', [1, 2],
-    { name: 'b' });
+    { name: '\\(\\boldsymbol{b}\\)' });
 const l2 = brd.create('arrow', [origin, p2],
     { fixed: true });
 
